@@ -1,0 +1,17 @@
+[Unit]
+Description=Adaptive Heating Logic Service
+After=network.target
+
+[Service]
+# IMPORTANT: You MUST replace the path below with the ansolute path to the script on your Raspberry Pi.
+ExecStart=/usr/bin/python3 /home/pi/adaptive-heating-optimizer/raspberrypi_logic/raspberrypi_logic.py
+WorkingDirectory=/home/pi/adaptive-heating-optimizer/raspberrypi_logic/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+# It's best practice to run services as a non-root user.
+# Replace 'pi' if you use a different username.
+User=pi
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,5 @@
+# Ignore ESP32 configuration file
+esp32_controller/config.h
+
+# Ignore Raspberry Pi configuration file
+raspberrypi_logic/config.py
