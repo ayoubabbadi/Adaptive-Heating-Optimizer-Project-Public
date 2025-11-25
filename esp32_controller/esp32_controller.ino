@@ -14,6 +14,8 @@
 #endif
 const int PIR_PIN = 27;
 const int RELAY_PIN = 26;
+// Note: BMP280 sensor was originally used but failed.
+// Temperature data is now fetched via API on the Raspberry Pi.
 
 const int MQTT_PORT = 1883;
 const char* MQTT_CLIENT_ID = "esp32-chauffage-controller";

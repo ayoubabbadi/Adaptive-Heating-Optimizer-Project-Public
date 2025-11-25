@@ -4,21 +4,31 @@ import paho.mqtt.client as mqtt
 import time
 import requests
 import random
+import os
 from datetime import datetime
+
+# --- Logging Helper ---
+def log(level, message):
+    print(f"[{level}] {message}")
 
 try:
     from smart_brain import SmartHabitTracker
 except ImportError:
-    print("SmartHabitTracker not found. Habits will be ignored.")
+    log("WARN", "SmartHabitTracker not found. Habits will be ignored.")
     # Dummy class to prevent crash if file missing
     class SmartHabitTracker:
         def check_habit_status(self): return False, 0.0, "No Brain"
         def add_realtime_event(self): pass
 
 try:
-    from config import MQTT_BROKER_IP
+    from config import MQTT_BROKER_IP, LATITUDE, LONGITUDE
 except ImportError:
     MQTT_BROKER_IP = "localhost"
+    LATITUDE = 33.25
+    LONGITUDE = -8.5
+    # Do not log a warning here if we want to fail silently or if it's expected in some envs
+    # But usually a warning is good.
+    # log("WARN", "Config not found. Using defaults (El Jadida, localhost).")
 
 MQTT_PORT = 1883
 CLIENT_ID = f"raspberrypi-heater-logic-{random.randint(1, 10000)}"
@@ -26,7 +36,7 @@ CLIENT_ID = f"raspberrypi-heater-logic-{random.randint(1, 10000)}"
 TARGET_TEMP = 20.0
 TOLERANCE = 0.50
 
-API_URL = "https://api.open-meteo.com/v1/forecast?latitude=33.25&longitude=-8.5&current=temperature_2m,relative_humidity_2m"
+API_URL = f"https://api.open-meteo.com/v1/forecast?latitude={LATITUDE}&longitude={LONGITUDE}&current=temperature_2m,relative_humidity_2m"
 
 # --- MQTT Topics ---
 TOPIC_TEMP = "chauffage/etat/temperature"
@@ -35,7 +45,7 @@ TOPIC_HEATER_STATUS = "chauffage/etat/statutChauffage"
 TOPIC_COMMAND = "chauffage/commande/set"
 TOPIC_TARGET = "chauffage/etat/target"
 TOPIC_PRESENCE = "chauffage/etat/presence"
-TOPIC_HABIT = "chauffage/etat/habit"  # Added Habit Topic
+TOPIC_HABIT = "chauffage/etat/habit"
 TOPIC_ESP32_STATUS = "chauffage/etat/esp32_status"
 TOPIC_APP_STATUS = "chauffage/etat/app_status"
 TOPIC_ALERT = "chauffage/alert"
@@ -58,27 +68,32 @@ temp_at_start = None
 alert_sent = False
 
 # Initialize Brain
-brain = SmartHabitTracker()
+# Check if simulation data exists, otherwise use default
+history_file = "motion_history.json"
+if os.path.exists("simulation/motion_history.json"):
+    history_file = "simulation/motion_history.json"
+
+brain = SmartHabitTracker(history_file=history_file)
 
 def fetch_weather_data():
     try:
-        print("[API] Reading Weather Data...")
+        log("INFO", "Reading Weather Data via API...")
         response = requests.get(API_URL, timeout=10)
         response.raise_for_status()
         data = response.json()
         temp = data['current']['temperature_2m']
         humidity = data['current']['relative_humidity_2m']
-        print(f"[API] Data Acquired: Temp={temp}C, Hum={humidity}%")
+        log("INFO", f"Data Acquired: Temp={temp}C, Hum={humidity}%")
         return temp, humidity
     except Exception as e:
-        print(f"Error fetching data from API: {e}")
+        log("ERROR", f"Error fetching data from API: {e}")
         # Fallback for demo if internet fails
         return round(random.uniform(10.0, 15.0), 2), 50
 
 def on_connect(client, userdata, flags, rc, properties=None):
     global is_connected
     if rc == 0:
-        print("Connected to MQTT Broker successfully.")
+        log("INFO", "Connected to MQTT Broker successfully.")
         is_connected = True
         client.subscribe(TOPIC_HEATER_STATUS)
         client.subscribe(TOPIC_PRESENCE)
@@ -87,13 +102,13 @@ def on_connect(client, userdata, flags, rc, properties=None):
         client.subscribe(TOPIC_TARGET)
         client.subscribe(TOPIC_COMMAND)
     else:
-        print(f"Failed to connect, return code {rc}.")
+        log("ERROR", f"Failed to connect, return code {rc}.")
         is_connected = False
 
 def on_disconnect(client, userdata, rc, properties=None):
     global is_connected
     is_connected = False
-    print(f"Disconnected from MQTT. Result code {rc}.")
+    log("INFO", f"Disconnected from MQTT. Result code {rc}.")
 
 def on_heater_status_update(client, userdata, msg):
     global heater_on
@@ -106,21 +121,21 @@ def on_presence_message(client, userdata, msg):
     
     if payload == "DETECTED":
         motion_active = True
-        print(">>> [PIR] MOTION DETECTED - System Active <<<")
+        log("INFO", "Motion DETECTED - System Active")
         # Teach the Brain
         brain.add_realtime_event()
     elif payload == "CLEAR" or payload == "NO_MOTION":
         motion_active = False
-        print(">>> [PIR] Motion Clear <<<")
+        log("INFO", "Motion Clear")
 
 def on_target_update(client, userdata, msg):
     global TARGET_TEMP
     try:
         payload = msg.payload.decode('utf-8')
         TARGET_TEMP = float(payload)
-        print(f">>> [USER] New Target Received: {TARGET_TEMP} C")
+        log("INFO", f"New Target Received: {TARGET_TEMP} C")
     except ValueError:
-        print(f"Error: Invalid target received: {msg.payload}")
+        log("ERROR", f"Invalid target received: {msg.payload}")
 
 def on_command_message(client, userdata, msg):
     global manual_mode, internal_action
@@ -132,22 +147,22 @@ def on_command_message(client, userdata, msg):
     
     if payload == "ON":
         manual_mode = True
-        print(">>> [USER OVERRIDE] Manual Mode ACTIVATED. Ignoring Temp/Motion logic. <<<")
+        log("INFO", "Manual Mode ACTIVATED. Ignoring Temp/Motion logic.")
     elif payload == "OFF":
         manual_mode = False
-        print(">>> [USER OVERRIDE] Manual Mode DEACTIVATED. Returning to Auto Logic. <<<")
+        log("INFO", "Manual Mode DEACTIVATED. Returning to Auto Logic.")
 
 def on_esp32_status(client, userdata, msg):
     global esp32_status
     esp32_status = msg.payload.decode('utf-8')
     if esp32_status == "OFFLINE":
-        print(">>> [SYSTEM] HARDWARE LOST. PAUSING. <<<")
+        log("WARN", "HARDWARE LOST. PAUSING.")
 
 def on_app_status(client, userdata, msg):
     global app_status
     app_status = msg.payload.decode('utf-8')
     if app_status == "OFFLINE":
-        print(">>> [SYSTEM] APP DISCONNECTED. PAUSING. <<<")
+        log("WARN", "APP DISCONNECTED. PAUSING.")
 
 # --- Logic ---
 def run_control_logic(client, temp):
@@ -186,13 +201,13 @@ def run_control_logic(client, temp):
                 
                 # If temp difference is minimal OR negative (cooling down while heater is on)
                 if temp_diff <= 0.1:
-                    print(f">>> [ALERT] Heater ON for 30s but Temp stagnated/dropped! (Diff: {temp_diff:.2f}C)")
+                    log("WARN", f"ALERT: Heater ON for 30s but Temp stagnated/dropped! (Diff: {temp_diff:.2f}C)")
                     msg = "ALERT: System running for 30s with NO temp rise. Check Windows/Doors and Heater!"
                     client.publish(TOPIC_ALERT, msg)
                     alert_sent = True
                 else:
                     if should_print:
-                         print(f"[Safety] System OK. Temp rose by {temp_diff:.2f}C")
+                         log("INFO", f"System OK. Temp rose by {temp_diff:.2f}C")
     else:
         heater_start_time = None
         temp_at_start = None
@@ -204,20 +219,20 @@ def run_control_logic(client, temp):
 
     if manual_mode:
         if should_print:
-             print(f"[Logic] Status: MANUAL OVERRIDE (Heater forced ON by User)")
+             log("INFO", f"Status: MANUAL OVERRIDE (Heater forced ON by User)")
              last_logic_print = current_time
         return
 
     # LOGIC CHANGE: Only shut down if NO Motion AND NO Habit
     if not motion_active and not is_habit:
         if heater_on:
-            print(f"Logic: Empty House (No Motion + Not Habit Time). Energy Saving OFF.")
+            log("INFO", "Empty House (No Motion + Not Habit Time). Energy Saving OFF.")
             internal_action = True
             client.publish(TOPIC_COMMAND, "OFF")
             time.sleep(0.1)
             internal_action = False
         elif should_print:
-            print(f"[Logic] Monitoring... Status: IDLE (Empty/Energy Save)")
+            log("INFO", "Monitoring... Status: IDLE (Empty/Energy Save)")
             last_logic_print = current_time
         return
     
@@ -229,24 +244,24 @@ def run_control_logic(client, temp):
     # If within buffer zone (24.5 to 25.5 if target is 25)
     if deviation <= TOLERANCE:
         if heater_on:
-            print(f"Logic: Temp ({temp}C) reached Target ({TARGET_TEMP}C). System OFF.")
+            log("INFO", f"Temp ({temp}C) reached Target ({TARGET_TEMP}C). System OFF.")
             internal_action = True
             client.publish(TOPIC_COMMAND, "OFF")
             time.sleep(0.1)
             internal_action = False
         elif should_print:
-            print(f"[Logic] Status: COMFORTABLE (Temp: {temp}C / Target: {TARGET_TEMP}C)")
+            log("INFO", f"Status: COMFORTABLE (Temp: {temp}C / Target: {TARGET_TEMP}C)")
             last_logic_print = current_time
     else:
         # Outside buffer zone
         if not heater_on:
-            print(f"Logic: Temp ({temp}C) deviated > {TOLERANCE} from {TARGET_TEMP}. System ON.")
+            log("INFO", f"Temp ({temp}C) deviated > {TOLERANCE} from {TARGET_TEMP}. System ON.")
             internal_action = True
             client.publish(TOPIC_COMMAND, "ON")
             time.sleep(0.1)
             internal_action = False
         elif should_print:
-             print(f"[Logic] Status: RUNNING (Temp: {temp}C / Target: {TARGET_TEMP}C)")
+             log("INFO", f"Status: RUNNING (Temp: {temp}C / Target: {TARGET_TEMP}C)")
              last_logic_print = current_time
 
 if __name__ == "__main__":
@@ -265,12 +280,12 @@ if __name__ == "__main__":
 
     while not is_connected:
         try:
-            print("Attempting to connect to MQTT broker...")
+            log("INFO", "Attempting to connect to MQTT broker...")
             client.connect(MQTT_BROKER_IP, MQTT_PORT, 60)
             client.loop_start()
             time.sleep(2)
         except (ConnectionRefusedError, OSError) as e:
-            print(f"Connection failed: {e}. Retrying in 5 seconds...")
+            log("ERROR", f"Connection failed: {e}. Retrying in 5 seconds...")
             time.sleep(5)
 
     last_weather_update = 0
@@ -283,10 +298,10 @@ if __name__ == "__main__":
         while True:
             # Safety check: Wait for hardware and app
             while esp32_status != "ONLINE" or app_status != "ONLINE":
-                print(f"\r[System] Waiting... ESP32: [{esp32_status}] | App: [{app_status}]", end="")
+                print(f"\r[INFO] Waiting... ESP32: [{esp32_status}] | App: [{app_status}]", end="")
                 time.sleep(2)
 
-            print("\n[System] Hardware and App Connected. Starting Main Control Loop.")
+            log("INFO", "Hardware and App Connected. Starting Main Control Loop.")
             
             while esp32_status == "ONLINE" and app_status == "ONLINE":
                 current_time = time.time()
@@ -306,7 +321,8 @@ if __name__ == "__main__":
                 time.sleep(CONTROL_LOOP_DELAY)
 
     except KeyboardInterrupt:
-        print("\nShutting down...")
+        print("\n")
+        log("INFO", "Shutting down...")
         client.loop_stop()
         client.disconnect()
-        print("Disconnected.")
+        log("INFO", "Disconnected.")
