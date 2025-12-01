@@ -1,12 +1,9 @@
 import json
 import random
-import os
 from datetime import datetime, timedelta
 
 DAYS_BACK = 30
-# Ensures the file is generated in the same directory as the script
-script_dir = os.path.dirname(os.path.abspath(__file__))
-FILENAME = os.path.join(script_dir, "motion_history.json")
+FILENAME = "motion_history.json"
 
 history_data = []
 
@@ -48,6 +45,5 @@ for i in range(DAYS_BACK):
 try:
     with open(FILENAME, 'w') as f:
         json.dump(history_data, f, indent=2)
-    print(f"History generated at: {FILENAME}")
 except IOError as e:
-    print(f"Error writing file: {e}")
+    pass

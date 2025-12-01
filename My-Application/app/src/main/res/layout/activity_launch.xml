@@ -6,16 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:padding="24dp"
-    tools:context=".LaunchActivity">
-
-
-
-
-
-
-
-
-
+    tools:context=".LaunchActivity"
+    tools:ignore="ExtraText">
 
 
     <TextView
@@ -77,11 +69,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ipAddressEditText" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="170dp"
+        android:layout_height="150dp"
+        android:backgroundTint="@color/accent_hot"
+        app:layout_constraintBottom_toTopOf="@+id/appTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/smart" />
+
     <TextView
         android:id="@+id/footerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
         android:fontFamily="sans-serif-condensed-light"
         android:text="@string/SMARTMINDS"
         android:textColor="@color/accent_hot"
