@@ -13,7 +13,6 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
@@ -29,7 +28,7 @@ class MqttService : Service() {
 
     private var mqttClient: MqttAndroidClient? = null
     private val notificationId = 1
-    private val alertNotificationId = 2 
+    private val alertNotificationId = 2
     private val channelId = "MqttServiceChannel"
 
     companion object {
@@ -86,7 +85,8 @@ class MqttService : Service() {
         super.onDestroy()
         try {
             unregisterReceiver(mqttCommandReceiver)
-        } catch (e: Exception) {}
+        } catch (e: Exception) {
+        }
         disconnect()
     }
 
@@ -176,7 +176,7 @@ class MqttService : Service() {
             val topics = arrayOf(
                 MqttTopics.TEMP, MqttTopics.PRESENCE, MqttTopics.HUMIDITY,
                 MqttTopics.HEATER_STATUS, MqttTopics.TARGET, MqttTopics.HABIT,
-                MqttTopics.ALERT 
+                MqttTopics.ALERT
             )
             val qos = IntArray(topics.size) { 1 }
             mqttClient?.subscribe(topics, qos)
@@ -209,7 +209,7 @@ class MqttService : Service() {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(
-                channelId, "MQTT Service Channel", NotificationManager.IMPORTANCE_HIGH 
+                channelId, "MQTT Service Channel", NotificationManager.IMPORTANCE_HIGH
             )
             getSystemService(NotificationManager::class.java).createNotificationChannel(serviceChannel)
         }
@@ -223,7 +223,7 @@ class MqttService : Service() {
         return NotificationCompat.Builder(this, channelId)
             .setContentTitle("AdaptiveHeat Optimizer")
             .setContentText(text)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.mipmap.ic_chip_small)
             .setContentIntent(pendingIntent)
             .build()
     }
@@ -232,7 +232,7 @@ class MqttService : Service() {
         val notification = NotificationCompat.Builder(this, channelId)
             .setContentTitle(getString(R.string.alert_title))
             .setContentText(getString(R.string.alert_message))
-            .setSmallIcon(R.mipmap.ic_launcher) 
+            .setSmallIcon(R.mipmap.ic_chip_small)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .build()

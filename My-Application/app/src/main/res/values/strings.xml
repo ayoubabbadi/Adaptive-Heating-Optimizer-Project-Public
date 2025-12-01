@@ -52,5 +52,6 @@
     <string name="alert_title">SYSTEM WARNING ‼️</string>
     <string name="alert_message">Heater running but temp not rising! Check Windows/Doors.</string>
     <string name="target">20</string>
+    <string name="status_invalid_ip">status_invalid_ip</string>
 
 </resources>

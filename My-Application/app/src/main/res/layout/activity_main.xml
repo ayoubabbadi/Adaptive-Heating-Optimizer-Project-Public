@@ -5,7 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".MainActivity">
+
 
     <TextView
         android:id="@+id/temperature_text"
@@ -15,6 +17,7 @@
         android:text="@string/temperature_format"
         android:textColor="@color/accent_hot"
         android:textSize="60sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,12 +29,14 @@
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
         android:text="@string/CURRENT_TEMPERATURE"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp"
         android:textStyle="bold"
+        android:letterSpacing="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/temperature_text" />
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/heater_card"
@@ -41,13 +46,27 @@
         android:layout_marginEnd="16dp"
         app:cardBackgroundColor="@color/surface"
         app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
+        app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/heater_status_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/HEATER_STATUS"
+                android:textAlignment="center"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/heater_text"
@@ -58,26 +77,14 @@
                 android:textAlignment="center"
                 android:textColor="@color/text_primary"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/heater_status_label" />
-
-            <TextView
-                android:id="@+id/heater_status_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/HEATER_STATUS"
-                android:textAlignment="center"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
@@ -87,7 +94,7 @@
         android:layout_marginTop="32dp"
         app:cardBackgroundColor="@color/surface"
         app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
+        app:cardElevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
@@ -102,8 +109,8 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/PRESENCE"
                 android:textAlignment="center"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -118,6 +125,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/text_primary"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -125,15 +133,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/humidity_card"
         android:layout_width="110dp"
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         app:cardBackgroundColor="@color/surface"
         app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
+        app:cardElevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
@@ -148,7 +157,8 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/humidity"
                 android:textAlignment="center"
-                android:textColor="@color/text_primary"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -161,7 +171,8 @@
                 android:text="@string/humidity_format"
                 android:textAlignment="center"
                 android:textColor="@color/text_primary"
-                android:textSize="24sp"
+                android:textSize="22sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -169,60 +180,18 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/habit_card"
-        android:layout_width="110dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        app:cardBackgroundColor="@color/surface"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/heater_card">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/active_habit"
-                android:textAlignment="center"
-                android:textColor="@color/text_primary"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/habit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/offline_placeholder"
-                android:textAlignment="center"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView19" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/target_temp_card"
         android:layout_width="110dp"
         android:layout_height="100dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/surface"
         app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
+        app:cardElevation="4dp"
         app:layout_constraintEnd_toStartOf="@+id/habit_card"
         app:layout_constraintStart_toEndOf="@+id/humidity_card"
         app:layout_constraintTop_toBottomOf="@+id/cardView2">
@@ -238,7 +207,8 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/target_temp"
                 android:textAlignment="center"
-                android:textColor="@color/text_primary"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -251,7 +221,8 @@
                 android:text="@string/temperature_format"
                 android:textAlignment="center"
                 android:textColor="@color/text_primary"
-                android:textSize="24sp"
+                android:textSize="22sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -259,59 +230,119 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/habit_card"
+        android:layout_width="110dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="@color/surface"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heater_card">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/active_habit"
+                android:textAlignment="center"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/habit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/offline_placeholder"
+                android:textAlignment="center"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/manual_switch"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/manual_fan_control"
         android:textColor="@color/text_primary"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:textStyle="bold"
+        app:thumbTint="@color/accent_primary"
+        app:trackTint="@color/text_secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/target_temp_card"
-        app:trackTint="@color/accent_primary"
         tools:ignore="ContentDescription" />
+
 
     <Button
         android:id="@+id/analyze_button"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/button_bg"
-        android:backgroundTint="@color/accent_primary"
+        app:backgroundTint="@color/accent_primary"
         android:text="@string/start_new_preference_analysis"
-        android:textColor="@color/text_primary"
-        app:layout_constraintBottom_toTopOf="@+id/disconnect_button"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manual_switch"
-        app:layout_constraintVertical_bias="0.549" />
+        app:layout_constraintTop_toBottomOf="@+id/manual_switch" />
+
 
     <Button
         android:id="@+id/disconnect_button"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/exit_button"
-        android:backgroundTint="#F44336"
+        app:backgroundTint="@color/status_red"
         android:text="@string/disconnect_button_text"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/connection_status_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manual_switch"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/analyze_button"
+        app:layout_constraintBottom_toTopOf="@+id/connection_status_bar"
+        app:layout_constraintVertical_bias="0.0"/>
+
 
     <TextView
         android:id="@+id/connection_status_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/status_gray"
-        android:padding="8dp"
+        android:background="@color/surface"
+        android:padding="12dp"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/status_green"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

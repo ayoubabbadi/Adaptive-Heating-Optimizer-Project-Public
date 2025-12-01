@@ -9,6 +9,7 @@
     android:padding="24dp"
     tools:context=".LaunchActivity">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,13 +19,16 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
+
     <TextView
         android:id="@+id/statusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="Status: Disconnected"
+        android:textColor="@color/text_secondary"
         android:textSize="18sp" />
+
 
     <EditText
         android:id="@+id/ipAddressEditText"
@@ -40,6 +44,7 @@
         android:textColor="@color/text_primary"
         android:textColorHint="@color/text_secondary" />
 
+
     <Button
         android:id="@+id/connectButton"
         android:layout_width="match_parent"
@@ -53,16 +58,6 @@
         android:textColor="@color/text_primary"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed-light"
-        android:text="@string/SMARTMINDS"
-        android:textAlignment="center"
-        android:textColor="@color/accent_hot"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:translationY="-400dp" />
+
 
 </LinearLayout>

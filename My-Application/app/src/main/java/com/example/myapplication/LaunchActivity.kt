@@ -27,24 +27,47 @@ class LaunchActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private var connectionTimeoutRunnable: Runnable? = null
 
+    private val mqttStatusReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val status = intent?.getStringExtra(MqttService.EXTRA_STATUS)
+            Log.d("AppFlow", "LaunchActivity received status: $status")
+
+            when (status) {
+                MqttService.STATUS_CONNECTED -> handleConnectionSuccess()
+                MqttService.STATUS_FAILED -> handleConnectionFailure()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launch)
 
+        initializeViews()
+        setupListeners()
+    }
+
+    private fun initializeViews() {
         statusTextView = findViewById(R.id.statusTextView)
         ipAddressEditText = findViewById(R.id.ipAddressEditText)
         connectButton = findViewById(R.id.connectButton)
+    }
 
+    private fun setupListeners() {
         connectButton.setOnClickListener {
             val ipAddress = ipAddressEditText.text.toString().trim()
-            if (ipAddress.isNotEmpty() && Patterns.IP_ADDRESS.matcher(ipAddress).matches()) {
+            if (isValidIpAddress(ipAddress)) {
                 startConnectionProcess(ipAddress)
             } else {
+                statusTextView.text = getString(R.string.status_invalid_ip)
                 statusTextView.text = "Status: Please enter a valid IP address."
             }
         }
+    }
+
+    private fun isValidIpAddress(ipAddress: String): Boolean {
+        return ipAddress.isNotEmpty() && Patterns.IP_ADDRESS.matcher(ipAddress).matches()
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
@@ -70,9 +93,10 @@ class LaunchActivity : AppCompatActivity() {
     private fun startConnectionProcess(ipAddress: String) {
         setUIState(connecting = true)
 
-        val serviceIntent = Intent(this, MqttService::class.java)
-        serviceIntent.action = MqttService.ACTION_CONNECT
-        serviceIntent.putExtra(MqttService.EXTRA_IP_ADDRESS, ipAddress)
+        val serviceIntent = Intent(this, MqttService::class.java).apply {
+            action = MqttService.ACTION_CONNECT
+            putExtra(MqttService.EXTRA_IP_ADDRESS, ipAddress)
+        }
 
         Log.d("AppFlow", "Starting Service directly with IP: $ipAddress")
 
@@ -82,6 +106,10 @@ class LaunchActivity : AppCompatActivity() {
             startService(serviceIntent)
         }
 
+        scheduleConnectionTimeout()
+    }
+
+    private fun scheduleConnectionTimeout() {
         connectionTimeoutRunnable = Runnable {
             Log.w("AppFlow", "Connection timed out after 30 seconds.")
             setUIState(connecting = false)
@@ -91,25 +119,22 @@ class LaunchActivity : AppCompatActivity() {
         connectionTimeoutRunnable?.let { handler.postDelayed(it, 30000) }
     }
 
-    private val mqttStatusReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val status = intent?.getStringExtra(MqttService.EXTRA_STATUS)
-            Log.d("AppFlow", "LaunchActivity received status: $status")
+    private fun handleConnectionSuccess() {
+        cancelTimeout()
+        val mainIntent = Intent(this@LaunchActivity, MainActivity::class.java)
+        startActivity(mainIntent)
+        finish()
+    }
 
-            if (status == MqttService.STATUS_CONNECTED) {
-                connectionTimeoutRunnable?.let { handler.removeCallbacks(it) }
-                connectionTimeoutRunnable = null
+    private fun handleConnectionFailure() {
+        cancelTimeout()
+        setUIState(connecting = false)
+        statusTextView.text = "Status: Connection Failed"
+    }
 
-                val mainIntent = Intent(this@LaunchActivity, MainActivity::class.java)
-                startActivity(mainIntent)
-                finish()
-            } else if (status == MqttService.STATUS_FAILED) {
-                connectionTimeoutRunnable?.let { handler.removeCallbacks(it) }
-                connectionTimeoutRunnable = null
-                setUIState(connecting = false)
-                statusTextView.text = "Status: Connection Failed"
-            }
-        }
+    private fun cancelTimeout() {
+        connectionTimeoutRunnable?.let { handler.removeCallbacks(it) }
+        connectionTimeoutRunnable = null
     }
 
     private fun setUIState(connecting: Boolean) {
