@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AdaptiveHeat</string>
 
@@ -9,11 +10,11 @@
 
     <string name="CURRENT_TEMPERATURE">CURRENT TEMPERATURE</string>
     <string name="PRESENCE">PRESENCE</string>
-    <string name="HEATER_STATUS">HEATER STATUS</string>
+    <string name="HEATER_STATUS">SYSTEM STATUS</string>
     <string name="humidity">HUMIDITY</string>
-    <string name="active_habit">ACTIVE HABIT</string>
+    <string name="active_habit">ACTIVE MODE</string>
     <string name="target_temp">TARGET TEMP</string>
-    <string name="manual_fan_control">Manual Fan Control</string>
+    <string name="manual_fan_control">Manual Control (Fan/Heat)</string>
     <string name="start_new_preference_analysis">START NEW PREFERENCE ANALYSIS</string>
 
     <string name="dialog_title">Set New Target Temperature</string>
@@ -50,8 +51,8 @@
     <string name="SMARTMINDS">SMART-MINDS-PROJECT</string>
 
     <string name="alert_title">SYSTEM WARNING ‼️</string>
-    <string name="alert_message">Heater running but temp not rising! Check Windows/Doors.</string>
+    <string name="alert_message">System running at max but temp not changing! Check Windows/Doors.</string>
     <string name="target">20</string>
-    <string name="status_invalid_ip">status_invalid_ip</string>
+    <string name="status_invalid_ip">Invalid IP Address</string>
 
 </resources>

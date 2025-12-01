@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         val newTempInput: EditText = dialogView.findViewById(R.id.new_temp_input)
         val saveButton: Button = dialogView.findViewById(R.id.save_temp_button)
 
-        val currentTarget = targetText.text.toString().replace("°C", "").replace(getString(R.string.offline_placeholder),"")
+        val currentTarget = targetText.text.toString().replace(getString(R.string.temperature_format, ""), "").replace(getString(R.string.offline_placeholder),"")
         newTempInput.setText(currentTarget)
 
         builder.setView(dialogView)

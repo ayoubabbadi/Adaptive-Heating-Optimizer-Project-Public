@@ -61,7 +61,7 @@ class LaunchActivity : AppCompatActivity() {
                 startConnectionProcess(ipAddress)
             } else {
                 statusTextView.text = getString(R.string.status_invalid_ip)
-                statusTextView.text = "Status: Please enter a valid IP address."
+                statusTextView.text = getString(R.string.status_invalid_ip)
             }
         }
     }
@@ -113,7 +113,7 @@ class LaunchActivity : AppCompatActivity() {
         connectionTimeoutRunnable = Runnable {
             Log.w("AppFlow", "Connection timed out after 30 seconds.")
             setUIState(connecting = false)
-            statusTextView.text = "Status: Connection Failed (Timeout)"
+            statusTextView.text = getString(R.string.error_connection_timed_out)
             stopService(Intent(this, MqttService::class.java))
         }
         connectionTimeoutRunnable?.let { handler.postDelayed(it, 30000) }
@@ -129,7 +129,7 @@ class LaunchActivity : AppCompatActivity() {
     private fun handleConnectionFailure() {
         cancelTimeout()
         setUIState(connecting = false)
-        statusTextView.text = "Status: Connection Failed"
+        statusTextView.text = getString(R.string.notification_failed)
     }
 
     private fun cancelTimeout() {
@@ -141,7 +141,7 @@ class LaunchActivity : AppCompatActivity() {
         connectButton.isEnabled = !connecting
         ipAddressEditText.isEnabled = !connecting
         if (connecting) {
-            statusTextView.text = "Status: Connecting..."
+            statusTextView.text = getString(R.string.connection_status_connecting)
         }
     }
 }

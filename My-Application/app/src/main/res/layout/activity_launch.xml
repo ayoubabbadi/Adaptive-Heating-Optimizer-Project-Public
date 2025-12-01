@@ -1,63 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:gravity="center"
-    android:orientation="vertical"
     android:padding="24dp"
     tools:context=".LaunchActivity">
 
 
+
+
+
+
+
+
+
+
+
     <TextView
+        android:id="@+id/appTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="AdaptiveHeat Optimizer"
+        android:layout_margin="20dp"
+        android:text="@string/app_name"
         android:textColor="@color/text_primary"
         android:textSize="24sp"
-        android:textStyle="bold" />
-
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/statusTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/statusTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Status: Disconnected"
+        android:layout_margin="20dp"
+        android:text="@string/status_not_connected"
+        android:textAlignment="center"
         android:textColor="@color/text_secondary"
-        android:textSize="18sp" />
-
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/ipAddressEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/ipAddressEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_width="340dp"
+        android:layout_height="65dp"
         android:background="@drawable/edittext_border_bg"
-        android:hint="Enter Raspberry Pi IP Address"
+        android:hint="@string/ip_hint"
         android:inputType="phone"
         android:maxLines="1"
-        android:padding="20dp"
+        android:padding="16dp"
         android:textAlignment="center"
         android:textColor="@color/text_primary"
-        android:textColorHint="@color/text_secondary" />
-
+        android:textColorHint="@color/text_secondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/connectButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_bg"
-        android:paddingLeft="32dp"
-        android:paddingTop="12dp"
-        android:paddingRight="32dp"
-        android:paddingBottom="12dp"
-        android:text="Connect"
+        android:layout_width="340dp"
+        android:layout_height="65dp"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/accent_primary"
+        android:paddingVertical="12dp"
+        android:text="@string/connect_button_text"
         android:textColor="@color/text_primary"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ipAddressEditText" />
 
+    <TextView
+        android:id="@+id/footerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="@string/SMARTMINDS"
+        android:textColor="@color/accent_hot"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

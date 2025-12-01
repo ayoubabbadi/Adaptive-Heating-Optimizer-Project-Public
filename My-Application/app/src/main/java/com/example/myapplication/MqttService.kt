@@ -221,7 +221,7 @@ class MqttService : Service() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         return NotificationCompat.Builder(this, channelId)
-            .setContentTitle("AdaptiveHeat Optimizer")
+            .setContentTitle(getString(R.string.app_name))
             .setContentText(text)
             .setSmallIcon(R.mipmap.ic_chip_small)
             .setContentIntent(pendingIntent)
