@@ -97,6 +97,20 @@ class MainActivity : AppCompatActivity() {
             val serviceIntent = Intent(this, MqttService::class.java)
             stopService(serviceIntent)
 
+            try {
+                cacheDir.deleteRecursively()
+
+                val sharedPrefsDir = java.io.File(applicationInfo.dataDir, "shared_prefs")
+                if (sharedPrefsDir.exists() && sharedPrefsDir.isDirectory) {
+                    sharedPrefsDir.list()?.forEach { fileName ->
+                        val name = fileName.replace(".xml", "")
+                        getSharedPreferences(name, android.content.Context.MODE_PRIVATE).edit().clear().commit()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
             val intent = Intent(this, LaunchActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
