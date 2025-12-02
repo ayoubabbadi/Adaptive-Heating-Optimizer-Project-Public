@@ -39,7 +39,6 @@ android {
 
 dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
-
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.12.0")
@@ -49,8 +48,8 @@ dependencies {
     implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
     implementation("com.airbnb.android:lottie:6.3.0")
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
-    implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
-
+    implementation("com.github.hannesa2:paho.mqtt.android:3.6.4")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -342,7 +342,7 @@
         android:background="@color/surface"
         android:padding="12dp"
         android:textAlignment="center"
-        android:textColor="@color/status_green"
+        android:textColor="@color/text_primary"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

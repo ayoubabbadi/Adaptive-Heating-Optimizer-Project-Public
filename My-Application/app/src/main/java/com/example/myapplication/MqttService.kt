@@ -14,7 +14,11 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import org.eclipse.paho.android.service.MqttAndroidClient
+
+import info.mqtt.android.service.MqttAndroidClient
+import info.mqtt.android.service.Ack
+
+
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.IMqttToken
@@ -70,6 +74,7 @@ class MqttService : Service() {
 
     @SuppressLint("ForegroundServiceType")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
         startForeground(notificationId, createNotification(getString(R.string.notification_waiting)))
 
         if (intent != null && intent.action == ACTION_CONNECT) {
@@ -86,6 +91,7 @@ class MqttService : Service() {
         try {
             unregisterReceiver(mqttCommandReceiver)
         } catch (e: Exception) {
+
         }
         disconnect()
     }
@@ -118,8 +124,12 @@ class MqttService : Service() {
         if (mqttClient != null && mqttClient!!.isConnected) return
 
         val clientId = MqttClient.generateClientId()
-        MqttData.client = MqttAndroidClient(applicationContext, serverUri, clientId)
-        mqttClient = MqttData.client
+
+
+        mqttClient = MqttAndroidClient(applicationContext, serverUri, clientId, Ack.AUTO_ACK)
+
+
+        MqttData.client = mqttClient
 
         mqttClient?.setCallback(object : MqttCallbackExtended {
             override fun connectComplete(reconnect: Boolean, serverURI: String?) {
@@ -216,6 +226,7 @@ class MqttService : Service() {
     }
 
     private fun createNotification(text: String): Notification {
+
         val pendingIntent = PendingIntent.getActivity(
             this, 0, Intent(this, MainActivity::class.java),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT

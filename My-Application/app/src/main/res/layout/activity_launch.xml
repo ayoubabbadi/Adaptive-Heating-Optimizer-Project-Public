@@ -71,15 +71,14 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView"
-        android:layout_width="170dp"
-        android:layout_height="150dp"
-        android:backgroundTint="@color/accent_hot"
+        android:layout_width="250dp"
+        android:layout_height="170dp"
         app:layout_constraintBottom_toTopOf="@+id/appTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/smart" />
+        app:lottie_rawRes="@raw/a" />
 
     <TextView
         android:id="@+id/footerText"
