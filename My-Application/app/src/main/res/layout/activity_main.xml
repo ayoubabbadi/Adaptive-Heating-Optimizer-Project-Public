@@ -298,41 +298,19 @@
 
 
     <Button
-        android:id="@+id/analyze_button"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/button_bg"
-        app:backgroundTint="@color/accent_primary"
-        android:text="@string/start_new_preference_analysis"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manual_switch" />
-
-
-    <Button
         android:id="@+id/disconnect_button"
-        android:layout_width="0dp"
+        android:layout_width="363dp"
         android:layout_height="55dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_margin="20dp"
         android:background="@drawable/exit_button"
-        app:backgroundTint="@color/status_red"
         android:text="@string/disconnect_button_text"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/analyze_button"
+        app:backgroundTint="@color/status_red"
         app:layout_constraintBottom_toTopOf="@+id/connection_status_bar"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <TextView

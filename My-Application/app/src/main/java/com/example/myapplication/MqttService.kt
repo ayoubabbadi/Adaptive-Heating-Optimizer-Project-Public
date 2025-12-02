@@ -15,9 +15,9 @@ import android.os.Bundle
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 
+
 import info.mqtt.android.service.MqttAndroidClient
 import info.mqtt.android.service.Ack
-
 
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
@@ -74,7 +74,6 @@ class MqttService : Service() {
 
     @SuppressLint("ForegroundServiceType")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
         startForeground(notificationId, createNotification(getString(R.string.notification_waiting)))
 
         if (intent != null && intent.action == ACTION_CONNECT) {
@@ -109,7 +108,11 @@ class MqttService : Service() {
                     val topic = intent.getStringExtra(EXTRA_TOPIC)
                     val message = intent.getStringExtra(EXTRA_MESSAGE)
                     if (topic != null && message != null) {
-                        publish(topic, message)
+
+                        val shouldRetain = (topic == MqttTopics.TARGET)
+
+
+                        publish(topic, message, shouldRetain)
                     }
                 }
                 ACTION_DISCONNECT -> disconnect()
@@ -128,12 +131,12 @@ class MqttService : Service() {
 
         mqttClient = MqttAndroidClient(applicationContext, serverUri, clientId, Ack.AUTO_ACK)
 
-
         MqttData.client = mqttClient
 
         mqttClient?.setCallback(object : MqttCallbackExtended {
             override fun connectComplete(reconnect: Boolean, serverURI: String?) {
                 subscribeToTopics()
+
                 publish(MqttTopics.APP_STATUS, "ONLINE", retain = true)
                 updateNotification(getString(R.string.notification_connected))
                 sendBroadcastMessage(STATUS_CONNECTED, null)
@@ -198,7 +201,9 @@ class MqttService : Service() {
     private fun publish(topic: String, message: String, retain: Boolean = false) {
         if (mqttClient?.isConnected == true) {
             try {
-                val mqttMessage = MqttMessage(message.toByteArray()).apply { isRetained = retain }
+                val mqttMessage = MqttMessage(message.toByteArray()).apply {
+                    isRetained = retain
+                }
                 mqttClient?.publish(topic, mqttMessage)
             } catch (e: MqttException) {
                 e.printStackTrace()
@@ -226,7 +231,6 @@ class MqttService : Service() {
     }
 
     private fun createNotification(text: String): Notification {
-
         val pendingIntent = PendingIntent.getActivity(
             this, 0, Intent(this, MainActivity::class.java),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
