@@ -89,7 +89,7 @@ def acquire_sensor_data(offset):
         jitter = random.uniform(-0.15, 0.15)
         return round(base_temp + jitter + offset, 2), base_hum
     except:
-        return round(19.0 + offset + random.uniform(-0.05, 0.05), 2), 50
+        return round(15.0 + offset + random.uniform(-0.05, 0.05), 2), 50
 
 def on_connect(client, userdata, flags, rc, properties=None):
     global is_connected
@@ -117,7 +117,11 @@ def on_presence_message(client, userdata, msg):
 
 def on_target_update(client, userdata, msg):
     global TARGET_TEMP
-    try: TARGET_TEMP = float(msg.payload.decode('utf-8'))
+    try: 
+        new_target = float(msg.payload.decode('utf-8'))
+        if new_target != TARGET_TEMP:
+            TARGET_TEMP = new_target
+            client.publish(TOPIC_TARGET, str(TARGET_TEMP), retain=True)
     except: pass
 
 def on_command_message(client, userdata, msg):
@@ -140,7 +144,7 @@ def execute_control_logic(client, current_temp):
     global heater_start_time, temp_at_start, alert_sent
 
     is_habit, probability, _ = brain.check_habit_status()
-    client.publish(TOPIC_HABIT, f"Habit: {int(probability*100)}%")
+    client.publish(TOPIC_HABIT, f"Habit: {int(probability*100)}%", retain=True)
 
     if heater_on:
         if heater_start_time is None:
@@ -161,7 +165,7 @@ def execute_control_logic(client, current_temp):
     if not motion_active and not is_habit:
         if heater_on:
             internal_action = True
-            client.publish(TOPIC_COMMAND, "OFF")
+            client.publish(TOPIC_COMMAND, "OFF", retain=True)
             time.sleep(0.1)
             internal_action = False
         return
@@ -169,13 +173,13 @@ def execute_control_logic(client, current_temp):
     if abs(current_temp - TARGET_TEMP) <= TOLERANCE:
         if heater_on:
             internal_action = True
-            client.publish(TOPIC_COMMAND, "OFF")
+            client.publish(TOPIC_COMMAND, "OFF", retain=True)
             time.sleep(0.1)
             internal_action = False
     else:
         if not heater_on:
             internal_action = True
-            client.publish(TOPIC_COMMAND, "ON")
+            client.publish(TOPIC_COMMAND, "ON", retain=True)
             time.sleep(0.1)
             internal_action = False
 
