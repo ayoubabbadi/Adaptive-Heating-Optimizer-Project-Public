@@ -38,8 +38,9 @@
 
     <EditText
         android:id="@+id/ipAddressEditText"
-        android:layout_width="340dp"
+        android:layout_width="0dp"
         android:layout_height="65dp"
+        android:layout_margin="16dp"
         android:background="@drawable/edittext_border_bg"
         android:hint="@string/ip_hint"
         android:inputType="phone"
@@ -55,9 +56,9 @@
 
     <Button
         android:id="@+id/connectButton"
-        android:layout_width="340dp"
+        android:layout_width="0dp"
         android:layout_height="65dp"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
         android:backgroundTint="@color/accent_primary"
         android:paddingVertical="12dp"
         android:text="@string/connect_button_text"

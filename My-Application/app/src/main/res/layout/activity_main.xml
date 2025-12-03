@@ -268,7 +268,7 @@
                 android:text="@string/offline_placeholder"
                 android:textAlignment="center"
                 android:textColor="@color/text_primary"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -278,30 +278,45 @@
     </androidx.cardview.widget.CardView>
 
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/manual_switch"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/manual_switch_container"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:text="@string/manual_fan_control"
-        android:textColor="@color/text_primary"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:thumbTint="@color/accent_primary"
-        app:trackTint="@color/text_secondary"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="@color/surface"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/target_temp_card"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/target_temp_card">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/manual_switch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/manual_fan_control"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:thumbTint="@color/accent_primary"
+            app:trackTint="@color/text_secondary"
+            tools:ignore="ContentDescription" />
+
+
+
+    </androidx.cardview.widget.CardView>
 
 
     <Button
         android:id="@+id/disconnect_button"
-        android:layout_width="363dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
         android:background="@drawable/exit_button"
         android:text="@string/disconnect_button_text"
         android:textColor="@color/white"
