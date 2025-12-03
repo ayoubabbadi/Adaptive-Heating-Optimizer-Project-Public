@@ -95,6 +95,9 @@ def on_connect(client, userdata, flags, rc, properties=None):
     global is_connected
     if rc == 0:
         is_connected = True
+        client.publish(TOPIC_TARGET, str(TARGET_TEMP), retain=True)
+        client.publish(TOPIC_PRESENCE, "CLEAR", retain=True)
+        client.publish(TOPIC_HEATER_STATUS, "OFF", retain=True)
         client.subscribe([(TOPIC_HEATER_STATUS, 0),(TOPIC_PRESENCE, 0),(TOPIC_ESP32_STATUS, 0),(TOPIC_APP_STATUS, 0),(TOPIC_TARGET, 0),(TOPIC_COMMAND, 0)])
     else: is_connected = False
 
