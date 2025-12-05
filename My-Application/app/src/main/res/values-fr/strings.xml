@@ -5,7 +5,6 @@
     <string name="ip_hint">Adresse IP du Pi (ex: 192.168.1.50)</string>
     <string name="connect_button_text">CONNECTER</string>
     <string name="status_not_connected">STATUT : NON CONNECTÉ</string>
-    <string name="skip_button_text">Passer pour l\'instant</string>
     <string name="creator_name">PAR AYOUB ABBADI</string>
 
     <string name="CURRENT_TEMPERATURE">TEMPÉRATURE ACTUELLE</string>
@@ -15,7 +14,6 @@
     <string name="active_habit">MODE ACTIF</string>
     <string name="target_temp">TEMP CIBLE</string>
     <string name="manual_fan_control">Contrôle Manuel (Ventilateur/Chauffage)</string>
-    <string name="start_new_preference_analysis">LANCER UNE NOUVELLE ANALYSE</string>
 
     <string name="dialog_title">Définir la nouvelle température cible</string>
     <string name="dialog_hint">Entrez la temp (ex : 22)</string>
@@ -24,7 +22,6 @@
     <string name="please_enter_ip">Veuillez entrer une adresse IP</string>
     <string name="connecting_to">CONNEXION À %1$s…</string>
     <string name="status_connected">STATUT : CONNECTÉ</string>
-    <string name="starting_new_analysis">Démarrage d\'une nouvelle analyse…</string>
     <string name="manual_control_on">Contrôle manuel ACTIVÉ</string>
     <string name="manual_control_off">Contrôle manuel DÉSACTIVÉ</string>
     <string name="connection_failed">ÉCHEC DE LA CONNEXION</string>
@@ -52,7 +49,6 @@
 
     <string name="alert_title">AVERTISSEMENT SYSTÈME ‼️</string>
     <string name="alert_message">Le système fonctionne au maximum mais la température ne change pas ! Vérifiez les fenêtres/portes.</string>
-    <string name="target">20</string>
     <string name="status_invalid_ip">Adresse IP invalide</string>
 
 </resources>

@@ -5,7 +5,6 @@
     <string name="ip_hint">Pi\'s IP Address (ex: 192.168.1.50)</string>
     <string name="connect_button_text">CONNECT</string>
     <string name="status_not_connected">STATUS: NOT CONNECTED</string>
-    <string name="skip_button_text">Skip for Now</string>
     <string name="creator_name">BY AYOUB ABBADI</string>
 
     <string name="CURRENT_TEMPERATURE">CURRENT TEMPERATURE</string>
@@ -14,8 +13,7 @@
     <string name="humidity">HUMIDITY</string>
     <string name="active_habit">ACTIVE MODE</string>
     <string name="target_temp">TARGET TEMP</string>
-    <string name="manual_fan_control">Manual Control (Fan/Heat)</string>
-    <string name="start_new_preference_analysis">START NEW PREFERENCE ANALYSIS</string>
+    <string name="manual_fan_control">Manual Control</string>
 
     <string name="dialog_title">Set New Target Temperature</string>
     <string name="dialog_hint">Enter temp (e.g., 22)</string>
@@ -24,7 +22,6 @@
     <string name="please_enter_ip">Please enter an IP address</string>
     <string name="connecting_to">CONNECTING TO %1$s…</string>
     <string name="status_connected">STATUS: CONNECTED</string>
-    <string name="starting_new_analysis">Starting new analysis…</string>
     <string name="manual_control_on">Manual control ON</string>
     <string name="manual_control_off">Manual control OFF</string>
     <string name="connection_failed">CONNECTION FAILED</string>
@@ -52,7 +49,6 @@
 
     <string name="alert_title">SYSTEM WARNING ‼️</string>
     <string name="alert_message">System running at max but temp not changing! Check Windows/Doors.</string>
-    <string name="target">20</string>
     <string name="status_invalid_ip">Invalid IP Address</string>
 
 </resources>

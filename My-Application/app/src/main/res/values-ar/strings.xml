@@ -5,7 +5,6 @@
     <string name="ip_hint">عنوان IP للراسبري (مثال: 192.168.1.50)</string>
     <string name="connect_button_text">اتصال</string>
     <string name="status_not_connected">الحالة: غير متصل</string>
-    <string name="skip_button_text">تخطى الآن</string>
     <string name="creator_name">بواسطة أيوب عبادي</string>
 
     <string name="CURRENT_TEMPERATURE">درجة الحرارة الحالية</string>
@@ -15,7 +14,6 @@
     <string name="active_habit">الوضع النشط</string>
     <string name="target_temp">الحرارة المستهدفة</string>
     <string name="manual_fan_control">تحكم يدوي (مروحة/تدفئة)</string>
-    <string name="start_new_preference_analysis">بدء تحليل تفضيلات جديد</string>
 
     <string name="dialog_title">تحديد درجة حرارة جديدة</string>
     <string name="dialog_hint">أدخل الدرجة (مثال: 22)</string>
@@ -24,7 +22,6 @@
     <string name="please_enter_ip">الرجاء إدخال عنوان IP</string>
     <string name="connecting_to">جاري الاتصال بـ %1$s…</string>
     <string name="status_connected">الحالة: متصل</string>
-    <string name="starting_new_analysis">جاري بدء تحليل جديد…</string>
     <string name="manual_control_on">التحكم اليدوي مفعل</string>
     <string name="manual_control_off">التحكم اليدوي معطل</string>
     <string name="connection_failed">فشل الاتصال</string>
@@ -52,7 +49,6 @@
 
     <string name="alert_title">تحذير النظام ‼️</string>
     <string name="alert_message">النظام يعمل بأقصى طاقة ولكن الحرارة لا تتغير! تفقد النوافذ والأبواب.</string>
-    <string name="target">20</string>
     <string name="status_invalid_ip">عنوان IP غير صالح</string>
 
 </resources>
