@@ -43,6 +43,16 @@
 
 ---
 
+
+## Wiring Diagram
+
+Here is the complete hardware wiring for the controller components.
+
+![Project Wiring Diagram](Projet_Chauffage_Adaptatif_IoT_Edge_Schema.png)
+
+
+---
+
 ##  System Logic & Data Flow
 
 The system operates in a **5-Phase Loop** as defined in the *Global Functional Diagram*:
